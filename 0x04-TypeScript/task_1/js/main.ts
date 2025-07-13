@@ -1,87 +1,119 @@
-// task_1/js/main.ts
-
-// --- Task 1: Let's build a Teacher interface ---
-
-/**
- * Interface for a Teacher.
- * Defines the structure a Teacher object must adhere to.
- */
+// Teacher interface
 interface Teacher {
-  // firstName and lastName should only be modifiable when a Teacher is first initialized
   readonly firstName: string;
   readonly lastName: string;
-
-  // This attribute should always be defined
   fullTimeEmployee: boolean;
-
-  // This attribute is optional
   yearsOfExperience?: number;
-
-  // This attribute should always be defined
   location: string;
-
-  // Add the possibility to add any attribute to the Object like contract(boolean)
-  // without specifying the name of the attribute (Index Signature)
-  [propName: string]: any;
+  [key: string]: any;
 }
 
-// Example Teacher object adhering to the interface
+// Only one teacher3 object
 const teacher3: Teacher = {
   firstName: 'John',
   fullTimeEmployee: false,
   lastName: 'Doe',
   location: 'London',
-  contract: false, // This is an additional property allowed by the index signature
+  contract: false,
 };
 
-console.log("--- Task 1 Example: Teacher ---");
 console.log(teacher3);
 
-// --- Task 2: Extending the Teacher interface ---
-
-/**
- * Interface for Directors, which extends the Teacher interface.
- * Directors inherit all properties from Teacher and add 'numberOfReports'.
- */
+// Directors interface that extends Teacher
 interface Directors extends Teacher {
-  numberOfReports: number; // A new, required attribute for Directors
+  numberOfReports: number;
 }
 
-// Example director object adhering to the Directors interface.
 const director1: Directors = {
   firstName: 'John',
   lastName: 'Doe',
   location: 'London',
-  fullTimeEmployee: true, // Inherited from Teacher
-  numberOfReports: 17,    // Specific to Directors
+  fullTimeEmployee: true,
+  numberOfReports: 17,
 };
 
-console.log("\n--- Task 2 Example: Director ---");
 console.log(director1);
 
-// --- Task 3: Printing teachers ---
+// 3. Printing teachers
 
-/**
- * Interface for the printTeacher function.
- * Defines the signature for a function that takes a first name and last name
- * and returns a formatted string.
- */
+// Interface for the function
 interface printTeacherFunction {
   (firstName: string, lastName: string): string;
 }
 
-/**
- * Implements the printTeacherFunction interface.
- * Returns the first letter of the firstName followed by a dot, a space, and the full lastName.
- * @param firstName The first name of the teacher.
- * @param lastName The last name of the teacher.
- * @returns A formatted string like "J. Doe".
- */
-const printTeacher: printTeacherFunction = (firstName: string, lastName: string): string => {
+// Function that implements the interface
+const printTeacher: printTeacherFunction = (firstName, lastName) => {
   return `${firstName.charAt(0)}. ${lastName}`;
 };
 
-// Example Usage for printTeacher function
-console.log("\n--- Task 3 Examples: printTeacher Function ---");
-console.log('printTeacher("John", "Doe"):', printTeacher("John", "Doe")); // Expected: J. Doe
-console.log('printTeacher("Alice", "Wonderland"):', printTeacher("Alice", "Wonderland")); // Expected: A. Wonderland
+// Example usage
+console.log(printTeacher("John", "Doe")); // Output: J. Doe
+
+// task_1/js/main.ts
+// (Keep all existing interfaces, functions, and example usage from Tasks 1, 2, and 3 above this)
+
+// --- Task 4: Writing a class ---
+
+/**
+ * Interface describing the shape of a StudentClass instance.
+ * It defines the methods that any object created from StudentClass must have.
+ */
+interface StudentClassInterface {
+  workOnHomework(): string;
+  displayName(): string;
+}
+
+/**
+ * Interface describing the constructor of the StudentClass.
+ * It specifies that the constructor takes a firstName and lastName (both strings)
+ * and returns an object that conforms to StudentClassInterface.
+ */
+interface StudentClassConstructor {
+  new (firstName: string, lastName: string): StudentClassInterface;
+}
+
+/**
+ * Implements the StudentClassInterface.
+ * This class represents a student with basic information and actions.
+ */
+class StudentClass implements StudentClassInterface {
+  // Properties of the student
+  firstName: string;
+  lastName: string;
+
+  /**
+   * Constructor for the StudentClass.
+   * Initializes a new student instance.
+   * @param firstName The first name of the student.
+   * @param lastName The last name of the student.
+   */
+  constructor(firstName: string, lastName: string) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  /**
+   * Method indicating the student is working on homework.
+   * @returns The string "Currently working".
+   */
+  workOnHomework(): string {
+    return "Currently working";
+  }
+
+  /**
+   * Method to display the student's first name.
+   * @returns The first name of the student.
+   */
+  displayName(): string {
+    return this.firstName;
+  }
+}
+
+// --- Example Usage for StudentClass ---
+
+// Create an instance of StudentClass
+const studentInstance: StudentClass = new StudentClass("Alice", "Smith");
+
+console.log("\n--- StudentClass Examples (Task 4) ---");
+console.log("Student's first name:", studentInstance.displayName()); // Expected: Alice
+console.log("Student's homework status:", studentInstance.workOnHomework()); // Expected: Currently working
