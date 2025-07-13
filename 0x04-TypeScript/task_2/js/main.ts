@@ -80,3 +80,19 @@ function executeWork(employee: Director | Teacher): void {
 executeWork(createEmployee(200));   // Should print: Getting to work
 executeWork(createEmployee(1000));  // Should print: Getting to director tasks
 
+type Subjects = "Math" | "History";
+
+function teachClass(todayClass: Subjects): string {
+  if (todayClass === "Math") {
+    return "Teaching Math";
+  } else if (todayClass === "History") {
+    return "Teaching History";
+  }
+  // Optional fallback (won't be reached because of type safety)
+  return "";
+}
+
+// Test examples
+console.log(teachClass("Math"));     // Output: Teaching Math
+console.log(teachClass("History"));  // Output: Teaching History
+
